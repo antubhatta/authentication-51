@@ -1,14 +1,25 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const Register = () => {
-
+    const {createUser}=useContext(AuthContext)
+    
     const handleRegister=e=>{
         e.preventDefault()
         const name=e.target.name.value
         const email= e.target.email.value;
         const password=e.target.password.value
-        
+        // create user in firebase
         console.log(name,email,password)
+        createUser(email,password)
+        .then((result)=>{
+            console.log(result.user)
+
+        })
+        .catch((error)=>{
+            console.log(error)
+        })
     }
     return (
         <div>
