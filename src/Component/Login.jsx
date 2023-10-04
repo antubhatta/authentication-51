@@ -1,10 +1,11 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
 
 
 const Login = () => {
-  const {signInUser}=useContext(AuthContext)
+  const {signInUser,signInWithGoogle}=useContext(AuthContext)
+  const navigate = useNavigate()
     const handleLoginSubmit=e=>{
         e.preventDefault()
         const email= e.target.email.value;
@@ -14,10 +15,23 @@ const Login = () => {
         signInUser(email,password)
         .then((result)=>{
           console.log(result.user)
+          e.target.reset()
+          navigate('/')
+         
         })
         .catch((error)=>{
           console.error(error)
         })
+        
+    }
+    const handleGoogle=()=>{
+      signInWithGoogle()
+      .then((result)=>{
+        console.log(result.user)
+      })
+      .catch((error)=>{
+        console.log(error)
+      })
     }
     return (
        <div>
@@ -48,6 +62,7 @@ const Login = () => {
           <button className="btn btn-primary">Login</button>
         </div>
         <p className="">New user please can be? <Link to="/register"><button className="btn btn-link">Register</button></Link></p>
+        <p><button onClick={handleGoogle} className="btn btn-ghost">GOOGLE</button></p>
       </form>
       
     </div>
